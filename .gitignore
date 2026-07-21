@@ -1,0 +1,9 @@
+# Secrets — never commit real passwords/keys
+.env
+
+# Python virtual environment (huge, machine-specific — rebuild with pip install)
+.venv/
+
+# Python cache files
+__pycache__/
+*.pyc
