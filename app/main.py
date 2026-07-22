@@ -2,6 +2,7 @@ from fastapi import FastAPI
 
 from app.database import Base, engine
 from app import models  # noqa: F401 — imported so tables get registered
+from app.routers import users
 
 # Create any missing tables on startup
 Base.metadata.create_all(bind=engine)
@@ -17,3 +18,7 @@ app = FastAPI(
 def read_root():
     """Confirms the API is alive."""
     return {"status": "ok", "message": "Task Management API is alive"}
+
+
+# Plug in feature routers
+app.include_router(users.router)
