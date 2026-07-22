@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.database import get_db
+from app.dependencies import get_current_user
 from app.models import User
 from app.schemas import UserCreate, UserOut
 from app.security import hash_password
@@ -38,6 +39,14 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
 def list_users(db: Session = Depends(get_db)):
     """List all users."""
     return db.query(User).all()
+
+
+@router.get("/me", response_model=UserOut)
+def read_me(current_user: User = Depends(get_current_user)):
+    """Return the currently logged-in user (requires a valid token).
+    NOTE: this MUST be defined before /{user_id}, otherwise FastAPI would
+    try to read 'me' as an integer id and fail."""
+    return current_user
 
 
 @router.get("/{user_id}", response_model=UserOut)

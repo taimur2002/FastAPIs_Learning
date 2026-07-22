@@ -22,3 +22,9 @@ class UserOut(BaseModel):
 
     # lets Pydantic read straight from a SQLAlchemy row object
     model_config = {"from_attributes": True}
+
+
+# What the login endpoint returns
+class Token(BaseModel):
+    access_token: str
+    token_type: str = "bearer"

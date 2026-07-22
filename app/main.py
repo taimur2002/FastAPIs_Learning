@@ -2,7 +2,7 @@ from fastapi import FastAPI
 
 from app.database import Base, engine
 from app import models  # noqa: F401 — imported so tables get registered
-from app.routers import users
+from app.routers import users, auth
 
 # Create any missing tables on startup
 Base.metadata.create_all(bind=engine)
@@ -21,4 +21,5 @@ def read_root():
 
 
 # Plug in feature routers
+app.include_router(auth.router)
 app.include_router(users.router)
